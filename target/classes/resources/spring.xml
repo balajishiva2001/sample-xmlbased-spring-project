@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Singleton Scope Beans -->
+	<bean id="helloWorld" class="com.xmlbasedspringproject.app.HelloWorld" scope="singleton"></bean>
+	
+	<!-- Prototype Scope Beans -->
+	<bean id="javaWorld" class="com.xmlbasedspringproject.app.JavaWorld" scope="prototype"></bean>
+	
+	<!-- Setter Injection -->
+	<bean id="student" class="com.xmlbasedspringproject.app.Student">
+		<property name="id" value="11"></property>
+		<property name="helloWorld" ref="helloWorld"></property>
+		<property name="javaWorld" ref="javaWorld"></property>
+	</bean>
+	
+	<!-- Constructor Injection| Following Order -->
+	<bean id="student1" class="com.xmlbasedspringproject.app.Student">
+		<constructor-arg name="id" value="22"></constructor-arg>
+		<constructor-arg name="helloWorld" ref="helloWorld"></constructor-arg>
+		<constructor-arg name="javaWorld" ref="javaWorld"></constructor-arg>
+	</bean>
+	
+	<!-- Constructor Injection| Specifying type -->
+	<bean id="student2" class="com.xmlbasedspringproject.app.Student">
+		<constructor-arg name="helloWorld" ref="helloWorld" type="HelloWorld" />
+		<constructor-arg name="id" value="33" type="int" />
+		<constructor-arg name="javaWorld" ref="javaWorld" type="JavaWorld" />
+	</bean>
+	
+	<!-- Constructor Injection| Specifying type -->
+	<bean id="student3" class="com.xmlbasedspringproject.app.Student">
+		<constructor-arg name="helloWorld" ref="helloWorld" index = "1"/>
+		<constructor-arg name="id" value="44" index = "0"/>
+		<constructor-arg name="javaWorld" ref="javaWorld" index = "2"/>
+	</bean>
+	
+	<!-- Constructor Injection| Specifying @ConstructorProperties annotation -->
+	<bean id="student4" class="com.xmlbasedspringproject.app.StudentInvoke">
+		<constructor-arg name="helloWorld" ref="helloWorld"/>
+		<constructor-arg name="id" value="55"/>
+		<constructor-arg name="javaWorld" ref="javaWorld"/>
+	</bean>
+	
+	<!-- Using autowire| byName -->
+	<bean id="laptop" class="com.xmlbasedspringproject.app.Laptop"></bean>
+	
+	<bean id="computer" class="com.xmlbasedspringproject.app.Desktop"></bean>
+	
+	<bean id="stud" class="com.xmlbasedspringproject.app.Stud" autowire="byName">
+		<property name="id" value="66"></property>
+		<!-- Explicit mention property, has the highest priority -->
+		<!--  <property name="computer" ref="laptop"/>-->
+	</bean>
+	
+	<!-- Using autowire| byType -->
+	<bean id="car" class="com.xmlbasedspringproject.app.Car" primary = "true"></bean>
+	
+	<bean id="vehicle" class="com.xmlbasedspringproject.app.Bike"></bean>
+	
+	<bean id="wheeler" class="com.xmlbasedspringproject.app.Wheeler" autowire="byType">
+		<property name="id" value="77"></property>
+		<!-- Explicit mention property, has the highest priority -->
+		<!--  <property name="vehicle" ref="vehicle"/>-->
+	</bean>
+	
+	<!-- Lazy-init -->
+	<!-- it will not created by default when we call ApplicationContext is created, created when we actually use it -->
+	<bean id="holiday" class="com.xmlbasedspringproject.app.Holiday" lazy-init="true"></bean>
+	
+	<!-- by default all beans are created when ApplicationContext is created. -->
+	<bean id="workday" class="com.xmlbasedspringproject.app.Workday"></bean>
+	
+	<!-- Inner Bean -->
+	<bean id="student5" class="com.xmlbasedspringproject.app.Student">
+		<property name="id" value="88"></property>
+		<property name="helloWorld">
+			<bean id="helloWorld" class="com.xmlbasedspringproject.app.HelloWorld"></bean>
+		</property>
+		<property name="javaWorld">
+			<bean id="javaWorld" class="com.xmlbasedspringproject.app.JavaWorld"></bean>
+		</property>
+	</bean>
+</beans>
+
